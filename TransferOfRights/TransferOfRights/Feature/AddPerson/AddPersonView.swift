@@ -93,7 +93,7 @@ struct AddPersonView: View {
             .padding(.trailing, Constants.buttonSpacing)
             
             NavigationLink(isActive: $viewModel.isShowCapability) {
-                CapabilityView(isPresented: $isPresented, viewModel: CapabilityViewModel())
+                CapabilityView(isPresented: $isPresented, viewModel: CapabilityViewModel(addressesModel: viewModel.addressesModel))
             } label: {}
             
             CustomButtonNext(titleButton: K.Text.continueNext){

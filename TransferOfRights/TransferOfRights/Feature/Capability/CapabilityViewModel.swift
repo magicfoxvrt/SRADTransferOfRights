@@ -19,7 +19,13 @@ class CapabilityViewModel: ObservableObject {
     
     private var cancellable: Set<AnyCancellable> = []
     
-    init() {
+    @Published var addressesModel: Addresses
+    
+    init(addressesModel: Addresses) {
+        self.addressesModel = addressesModel
+        
+        configurationToggleView(addressesModel: addressesModel)
+        
         $payment
             .map { payment in
                 return payment
@@ -36,8 +42,9 @@ class CapabilityViewModel: ObservableObject {
         
         Publishers.CombineLatest($paymentCheck, $transmissionOfTestimonyCheck)
             .map { paymentCheck, transmissionOfTestimonyCheck in
-                self.returnText(name: "Артем Р.",
-                                address: "Аблукова 8, кв 1403",
+
+                self.returnText(name: self.configurationDiscription(addressesModel: addressesModel),
+                                address: addressesModel.address,
                                 toggle1: paymentCheck,
                                 toggle2: transmissionOfTestimonyCheck)
             }
@@ -59,6 +66,27 @@ class CapabilityViewModel: ObservableObject {
         }
         
         return CapabilityState.default.text
+    }
+    
+    private func configurationDiscription(addressesModel: Addresses) -> String{
+        guard let firstName = addressesModel.people?.last?.firstName else {
+            return ""
+        }
+        
+        guard let lastName = addressesModel.people?.last?.lastName.prefix(1) else {
+            return  firstName + ""
+        }
+        
+        return firstName + " " + lastName + "."
+    }
+    
+    private func configurationToggleView(addressesModel: Addresses) {
+        guard let payment = addressesModel.people?.last?.possibilities?.payment,
+              let presentTestimony = addressesModel.people?.last?.possibilities?.presentTestimony else {
+            return
+        }
+        self.payment = payment
+        self.transmissionOfTestimony = presentTestimony
     }
 }
 

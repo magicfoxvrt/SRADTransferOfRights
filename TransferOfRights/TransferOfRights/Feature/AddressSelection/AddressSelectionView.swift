@@ -49,7 +49,7 @@ struct AddressSelectionView: View {
         ScrollView(.vertical, showsIndicators: false) {
             ForEach($viewModel.profileModel, id: \.self) { item in
                 NavigationLink {
-                    AddPersonView(viewModel: AddPersonViewModel(), isPresented: $isPresented)
+                    AddPersonView(viewModel: AddPersonViewModel(addressesModel: item.wrappedValue), isPresented: $isPresented)
                 } label: {
                     AddressCellView(addressesModel: item)
                         .padding(.bottom, Constants.cellPadding)

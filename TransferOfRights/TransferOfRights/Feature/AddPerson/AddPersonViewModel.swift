@@ -21,9 +21,17 @@ class AddPersonViewModel: ObservableObject {
     @Published var isValidateSurName = false
     
     @Published var isShowCapability = false
-        
+    @Published var addressesModel: Addresses
+    
+    init(addressesModel: Addresses) {
+        self.addressesModel = addressesModel
+    }
+    
     func fieldValidation(completion: @escaping () -> Void) {
         if !number.isEmpty && !lastName.isEmpty && !firstName.isEmpty && !surName.isEmpty {
+            let people = People(phoneNamber: number, lastName: lastName, firstName: firstName, serName: surName, possibilities:
+                         Possibilities(payment: true, presentTestimony: false))
+            addressesModel.people?.append(people)
             completion()
         } else {
             number.isEmpty ? (isValidateNumber = true) : (isValidateNumber = false)

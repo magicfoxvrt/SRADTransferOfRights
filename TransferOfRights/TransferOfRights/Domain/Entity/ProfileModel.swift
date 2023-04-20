@@ -15,7 +15,7 @@ struct ProfileModel: Identifiable, Hashable {
 
     static let mockAddresses = Addresses(id: UUID(), city: "г. Ульяновск", address: "ул. Аблукова 228, кв.1403", people:[
         People(phoneNamber: "", lastName: "", firstName: "", serName: "", possibilities:
-        Possibilities(payment: false, presentTestimony: false))])
+        Possibilities(payment: false, presentTestimony: true))])
 }
 
 struct Addresses: Identifiable, Hashable {
